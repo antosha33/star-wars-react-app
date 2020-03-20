@@ -1,55 +1,30 @@
 import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
+import {WithData} from '../hoc-helpers';
 
 import './item-list.css';
 
-export default class ItemList extends Component {
-
-
-  state = {
-    itemList: [
-
-    ],
-    loading: true,
-  }
-
-  componentDidMount() {
-    this.itemLoading();
-  }
-
-  itemLoading = () => {
-    const {getData} = this.props;
-    getData()
-      .then(this.onItemLoaded)
-  }
-
-  onItemLoaded = (res) => {
-    return this.setState({
-      itemList: res,
-      loading: false,
-    })
-  }
-
-  render() {
-    const {getPersonId } = this.props;
-    let peoplesJsx = this.state.itemList.map(it => {
+const ItemList = (props) =>{
+    const { getPersonId, renderItem, state } = props;
+    let itemsJsx = state.itemList.map(it => {
+      const value = renderItem(it);
       return (
         <li className="list-group-item"
           key={it.name}
-          onClick = {()=>getPersonId(it.id)}
-          >
-          {it.name}
+          onClick={() => getPersonId(it.id)}
+        >
+          {value}
         </li>
       )
     });
 
-    peoplesJsx =
+    itemsJsx =
       <ul className="item-list list-group">
-        {peoplesJsx}
+        {itemsJsx}
       </ul>
 
-    const show = this.state.loading ? <Spinner /> : peoplesJsx;
+    const show = state.loading ? <Spinner /> : itemsJsx;
 
     return (
       <React.Fragment>
@@ -57,5 +32,7 @@ export default class ItemList extends Component {
       </React.Fragment>
 
     );
-  }
+
 }
+
+export default WithData(ItemList);
