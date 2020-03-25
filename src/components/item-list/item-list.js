@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-import SwapiService from '../../services/swapi-service';
+import React from 'react';
 import Spinner from '../spinner';
-import {WithData} from '../hoc-helpers';
 
 import './item-list.css';
 
 const ItemList = (props) =>{
-    const { getPersonId, renderItem, state } = props;
+    const { onItemSelected, renderItem, state } = props;
     let itemsJsx = state.itemList.map(it => {
       const value = renderItem(it);
       return (
         <li className="list-group-item"
           key={it.name}
-          onClick={() => getPersonId(it.id)}
+          onClick={() => onItemSelected(it.id)}
         >
           {value}
         </li>
@@ -35,4 +33,4 @@ const ItemList = (props) =>{
 
 }
 
-export default WithData(ItemList);
+export default ItemList;

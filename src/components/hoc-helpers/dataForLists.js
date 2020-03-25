@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import SwapiService from '../../services/swapi-service';
-import Spinner from '../spinner';
 
-
-const withData = (View) => {
+const WithData = (getData) => (View) => {
   return class extends Component {
 
     state = {
@@ -18,9 +15,7 @@ const withData = (View) => {
     }
 
     itemLoading = () => {
-      const { getData } = this.props;
-      console.log(getData);
-      getData()
+       getData()
         .then(this.onItemLoaded)
     }
 
@@ -38,4 +33,4 @@ const withData = (View) => {
   }
 }
 
-export default withData;
+export default WithData;

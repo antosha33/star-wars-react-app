@@ -25,12 +25,26 @@ export default class SwapiService {
 
   getAllPlanets = async () => {
     const res = await this.getResource(`planets/`);
-    return res.results;
+    return res.results.map(it => {
+      return {
+        name: it.name,
+        diameter: it.diameter,
+        rotation: it.rotation_period,
+        id: this._extractId(it.url),
+      }
+    });
   }
 
   getAllStarships = async () => {
     const res = await this.getResource(`starships/`);
-    return res.results;
+    return res.results.map(it => {
+      return {
+        name: it.name,
+        model: it.model,
+        manufacturer: it.manufacturer,
+        id: this._extractId(it.url),
+      }
+    });
   }
 
   _extractId(url) {
@@ -51,6 +65,7 @@ export default class SwapiService {
       crew: result.crew,
       passengers: result.passengers,
       cargoCapacity: result.cargoCapacity,
+      img: this.getStarshipImage(id),
     }
   }
 
@@ -83,5 +98,8 @@ export default class SwapiService {
   }
   getPlanetImage = (id) => {
     return `${this._imgBase}planets/${id}.jpg`;
+  }
+  getStarshipImage = (id) => {
+    return `${this._imgBase}starships/${id}.jpg`;
   }
 }
