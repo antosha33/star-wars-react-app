@@ -2,8 +2,6 @@ import SwapiService from '../../services/swapi-service';
 import ItemList from '../item-list';
 import { WithRenderItemLists, DataForLists } from '../hoc-helpers';
 
-
-
 const swapi = new SwapiService();
 const { getAllPlanets, getAllPeople, getAllStarships } = swapi;
 
@@ -29,7 +27,7 @@ const PlanetList = composeHelper(
 
 const StarshipList = composeHelper(
   DataForLists(getAllStarships),
-  WithRenderItemLists(({ name, crew, length }) => `${name} + ${crew} + ${length}`)
+  WithRenderItemLists(({ name, model, manufacturer }) => `${name} + ${model} + ${manufacturer}`)
 )
   (ItemList);
 
